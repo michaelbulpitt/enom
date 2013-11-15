@@ -244,6 +244,16 @@ module Enom
       return @nameservers
     end
 
+    # Set CNAME
+
+    def set_cname(cname)
+      ns = {}
+      ns.merge!("Hostname1" => 'www', "RecordType1" => 'CNAME', "Address1" => cname )
+      ns.merge!("Hostname2" => '@', "RecordType2" => 'URL', "Address2" => "http://www.#{self.sld}.#{self.tld}/" )
+      Client.request({"Command" => "SetHosts", "SLD" => sld, "TLD" => tld}.merge(ns))
+      return self
+    end
+
     def update_nameservers(nameservers = [])
       count = 1
       ns = {}
