@@ -2,6 +2,7 @@ module Enom
 
   class Client
     include HTTParty
+    http_proxy '173.213.96.229', 8089
 
     class << self
       attr_accessor :username, :password, :test
