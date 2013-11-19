@@ -254,6 +254,19 @@ module Enom
       return self
     end
 
+
+    def update_email_forwarding(username, email)
+      ns = {}
+      ns.merge!("UserName" => username, "EMail" => "#{username}@#{sld}.#{tld}", "ForwardTo" => email, "Enable" => 1 )
+
+      Client.request({"Command" => "SetPOPForwarding", "SLD" => sld, "TLD" => tld}.merge(ns))
+      return self
+    end
+
+    def get_email_forwarding(username)
+      response = Client.request("Command" => "GetPOPForwarding","SLD" => sld, "TLD" => tld, "Username" => username)["interface_response"]["GetPOPForwarding"]["DomainDetail"]
+    end
+
     def update_nameservers(nameservers = [])
       count = 1
       ns = {}
