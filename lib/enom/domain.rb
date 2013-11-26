@@ -254,6 +254,34 @@ module Enom
       return self
     end
 
+    def setup_pop
+      ns = {}
+      ns.merge!("Quantity" => 1)
+      request = Client.request({"Command" => "PurchasePOPBundle", "SLD" => sld, "TLD" => tld}.merge(ns))
+
+      bundle_id = request.parsed_response['interface_response']['Bundles']['BundleID']
+
+      return bundle_id
+    end
+
+
+    def pop_renew(bool, bundle)
+      ns = {}
+      Client.request({"Command" => "SetPakRenew", "SLD" => sld, "TLD" => tld, "AutoPakRenew" => bool, "BundleID" => bundle}.merge(ns))
+    end
+
+
+    def get_pop_accounts
+      request = Client.request({"Command" => "GetPOP3", "SLD" => sld, "TLD" => tld})
+      request = request
+    end
+
+    def new_email(bundle, username, password)
+      ns = {}
+      ns.merge!("BundleID" => bundle, "UserName1" => username, "Password1" => password )
+      return Client.request({"Command" => "SetUpPOP3User", "SLD" => sld, "TLD" => tld}.merge(ns))
+    end
+
 
     def update_email_forwarding(username, email)
       ns = {}
