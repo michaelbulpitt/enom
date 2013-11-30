@@ -271,6 +271,18 @@ module Enom
     end
 
 
+    def delete_pop(username)
+      ns = {}
+      Client.request({"Command" => "DeletePOP3", "SLD" => sld, "TLD" => tld, "UserName1" => username}.merge(ns))
+    end
+
+    def renew_pop(bundle)
+      ns = {}
+      ns.merge!("PakID" => bundle, "Quantity" => 1, "UseCreditCard" => 'no' )
+      Client.request({"Command" => "RenewPOPBundle", "SLD" => sld, "TLD" => tld}.merge(ns))
+    end
+
+
     def get_pop_accounts
       request = Client.request({"Command" => "GetPOP3", "SLD" => sld, "TLD" => tld})
       request = request
