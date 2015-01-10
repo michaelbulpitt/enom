@@ -1,8 +1,7 @@
 module Enom
-
   class Client
     include HTTParty
-    http_proxy '117.59.224.60', 80
+    http_proxy URI(ENV['QUOTAGUARDSTATIC_URL']).host, URI(ENV['QUOTAGUARDSTATIC_URL']).port, URI(ENV['QUOTAGUARDSTATIC_URL']).userinfo.split(':').first, URI(ENV['QUOTAGUARDSTATIC_URL']).userinfo.split(':').last
 
     class << self
       attr_accessor :username, :password, :test
